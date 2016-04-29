@@ -10,6 +10,9 @@
 		50285CD01CD2C897008477E1 /* XMLPullitic.h in Headers */ = {isa = PBXBuildFile; fileRef = 50285CCF1CD2C897008477E1 /* XMLPullitic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50285CD71CD2C897008477E1 /* XMLPullitic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50285CCC1CD2C897008477E1 /* XMLPullitic.framework */; };
 		50285CDC1CD2C897008477E1 /* XMLPulliticTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285CDB1CD2C897008477E1 /* XMLPulliticTests.swift */; };
+		50285CE81CD2D4E1008477E1 /* XMLPullParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285CE71CD2D4E1008477E1 /* XMLPullParser.swift */; };
+		50285CEA1CD2D552008477E1 /* XMLEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285CE91CD2D552008477E1 /* XMLEvent.swift */; };
+		50285CED1CD2E10F008477E1 /* XMLElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285CEC1CD2E10F008477E1 /* XMLElement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +32,9 @@
 		50285CD61CD2C897008477E1 /* XMLPulliticTests_iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XMLPulliticTests_iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50285CDB1CD2C897008477E1 /* XMLPulliticTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLPulliticTests.swift; sourceTree = "<group>"; };
 		50285CDD1CD2C897008477E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50285CE71CD2D4E1008477E1 /* XMLPullParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLPullParser.swift; sourceTree = "<group>"; };
+		50285CE91CD2D552008477E1 /* XMLEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLEvent.swift; sourceTree = "<group>"; };
+		50285CEC1CD2E10F008477E1 /* XMLElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLElement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +96,9 @@
 		50285CE61CD2D08A008477E1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				50285CE71CD2D4E1008477E1 /* XMLPullParser.swift */,
+				50285CE91CD2D552008477E1 /* XMLEvent.swift */,
+				50285CEC1CD2E10F008477E1 /* XMLElement.swift */,
 			);
 			name = Sources;
 			path = ../Sources;
@@ -203,6 +212,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50285CEA1CD2D552008477E1 /* XMLEvent.swift in Sources */,
+				50285CED1CD2E10F008477E1 /* XMLElement.swift in Sources */,
+				50285CE81CD2D4E1008477E1 /* XMLPullParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,6 +331,7 @@
 		50285CE11CD2C897008477E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -329,12 +342,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hironytic.XMLPullitic;
 				PRODUCT_NAME = XMLPullitic;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		50285CE21CD2C897008477E1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
