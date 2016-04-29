@@ -93,9 +93,9 @@ public class XMLPullParser {
 // MARK: -
 
 @objc private class InternalXMLParser: NSObject, NSXMLParserDelegate {
-    enum LockCondition: Int {
-        case Requested = 0
-        case Provided = 1
+    class LockCondition {
+        static let Requested: Int = 0
+        static let Provided: Int = 1
     }
     
     enum State {
@@ -115,7 +115,7 @@ public class XMLPullParser {
     
     init(xmlParser: NSXMLParser) {
         self.xmlParser = xmlParser
-        self.lock = NSConditionLock(condition: LockCondition.Requested.rawValue)
+        self.lock = NSConditionLock(condition: LockCondition.Requested)
         self.currentEvent = XMLEvent.StartDocument
         self.state = .NotStarted
         self.depth = 0
@@ -129,10 +129,10 @@ public class XMLPullParser {
         state = .Aborted
         
         // awake wating parser
-        lock.unlockWithCondition(LockCondition.Requested.rawValue)
+        lock.unlockWithCondition(LockCondition.Requested)
         
         // wait for aborting
-        lock.lockWhenCondition(LockCondition.Provided.rawValue)
+        lock.lockWhenCondition(LockCondition.Provided)
         lock.unlock()
     }
     
@@ -142,11 +142,11 @@ public class XMLPullParser {
             state = .Parsing
             xmlParser.delegate = self
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                self.lock.lockWhenCondition(LockCondition.Requested.rawValue)
+                self.lock.lockWhenCondition(LockCondition.Requested)
                 self.xmlParser.parse()
             }
         case .Parsing:
-            lock.unlockWithCondition(LockCondition.Requested.rawValue)
+            lock.unlockWithCondition(LockCondition.Requested)
             
         case .Aborted:
             return XMLEvent.EndDocument
@@ -155,7 +155,7 @@ public class XMLPullParser {
             return XMLEvent.EndDocument
         }
         
-        lock.lockWhenCondition(LockCondition.Provided.rawValue)
+        lock.lockWhenCondition(LockCondition.Provided)
         switch currentEvent {
         case .EndDocument:
             state = .Ended
@@ -169,15 +169,15 @@ public class XMLPullParser {
     
     func provideEvent(event: XMLEvent) {
         currentEvent = event
-        lock.unlockWithCondition(LockCondition.Provided.rawValue)
+        lock.unlockWithCondition(LockCondition.Provided)
     }
     
     func waitForNextRequest() {
-        lock.lockWhenCondition(LockCondition.Requested.rawValue)
+        lock.lockWhenCondition(LockCondition.Requested)
         if (state == .Aborted) {
             xmlParser.abortParsing()
             xmlParser.delegate = nil
-            lock.unlockWithCondition(LockCondition.Provided.rawValue)
+            lock.unlockWithCondition(LockCondition.Provided)
         }
     }
 
