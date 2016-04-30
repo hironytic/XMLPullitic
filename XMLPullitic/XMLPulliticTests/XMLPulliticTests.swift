@@ -38,10 +38,7 @@ class XMLPulliticTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        
+    func testMinimal() {
         let xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><hoge aa=\"11\" bb=\"22\">foo</hoge>"
         let parser = XMLPullParser(string: xml)
         XCTAssertNotNil(parser)
@@ -94,14 +91,5 @@ class XMLPulliticTests: XCTestCase {
                 XCTFail("event5 should be .EndDocument")
             }
         }
-        
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }
