@@ -159,6 +159,7 @@ public class XMLPullParser {
         switch currentEvent {
         case .EndDocument:
             state = .Ended
+            lock.unlock()
         default:
             break
         }
