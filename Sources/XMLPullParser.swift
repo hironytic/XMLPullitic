@@ -199,12 +199,12 @@ public class XMLPullParser {
     @objc func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         depth += 1
         let element = XMLElement(name: elementName, namespaceURI: namespaceURI, qualifiedName: qName, attributes: attributeDict)
-        provide(.Event(.StartElement(elementName, namespaceURI, element)))
+        provide(.Event(.StartElement(name: elementName, namespaceURI: namespaceURI, element: element)))
         waitForNextRequest()
     }
     
     @objc func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        provide(.Event(.EndElement(elementName, namespaceURI)))
+        provide(.Event(.EndElement(name: elementName, namespaceURI: namespaceURI)))
         depth -= 1
         waitForNextRequest()
     }

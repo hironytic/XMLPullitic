@@ -29,11 +29,11 @@ public enum XMLEvent {
     
     case StartDocument
     
-    case StartElement(String, String?, XMLElement)   // name, namespaceURI, XMLElement
+    case StartElement(name: String, namespaceURI: String?, element: XMLElement)
     
     case Characters(String)
     
-    case EndElement(String, String?)    // name, namesaceURI
+    case EndElement(name: String, namespaceURI: String?)
     
     case EndDocument
 }
