@@ -97,11 +97,160 @@ class XMLPulliticTests: XCTestCase {
         }
     }
     
+    func testToProcessNamespaces() {
+        let xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+                + "<w:document xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\">"
+                + "<w:rtl w:val=\"0\"/>"
+                + "</w:document>"
+        let parser = XMLPullParser(string: xml)
+        XCTAssertNotNil(parser)
+        if let parser = parser {
+            parser.shouldProcessNamespaces = true
+            do {
+                switch try parser.next() {
+                case .StartDocument:
+                    break
+                default:
+                    XCTFail("should be .StartDocument")
+                }
+                
+                switch try parser.next() {
+                case .StartElement(let name, let namespaceURI, let element):
+                    XCTAssertEqual(name, "document")
+                    XCTAssertEqual(namespaceURI, "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
+                    XCTAssertEqual(element.name, "document")
+                    XCTAssertEqual(element.namespaceURI, "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
+                    XCTAssertEqual(element.qualifiedName, "w:document")
+                    XCTAssertEqual(element.attributes.count, 0)
+                    break
+                default:
+                    XCTFail("should be .StartElement")
+                }
+                
+                switch try parser.next() {
+                case .StartElement(let name, let namespaceURI, let element):
+                    XCTAssertEqual(name, "rtl")
+                    XCTAssertEqual(namespaceURI, "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
+                    XCTAssertEqual(element.name, "rtl")
+                    XCTAssertEqual(element.namespaceURI, "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
+                    XCTAssertEqual(element.qualifiedName, "w:rtl")
+                    XCTAssertEqual(element.attributes.count, 1)
+                    XCTAssertEqual(element.attributes["w:val"], "0")
+                    break
+                default:
+                    XCTFail("should be .StartElement")
+                }
+                
+                switch try parser.next() {
+                case .EndElement(let name, let namespaceURI):
+                    XCTAssertEqual(name, "rtl")
+                    XCTAssertEqual(namespaceURI, "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
+                    break
+                default:
+                    XCTFail("should be .EndElement")
+                }
+                
+                switch try parser.next() {
+                case .EndElement(let name, let namespaceURI):
+                    XCTAssertEqual(name, "document")
+                    XCTAssertEqual(namespaceURI, "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
+                    break
+                default:
+                    XCTFail("should be .EndElement")
+                }
+                
+                switch try parser.next() {
+                case .EndDocument:
+                    break
+                default:
+                    XCTFail("should be .EndDocument")
+                }
+            } catch {
+                XCTFail("error should not be occured")
+            }
+        }
+    }
+    
+    func testNotToProcessNamespaces() {
+        let xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+                + "<w:document xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\">"
+                + "<w:rtl w:val=\"0\"/>"
+                + "</w:document>"
+        let parser = XMLPullParser(string: xml)
+        XCTAssertNotNil(parser)
+        if let parser = parser {
+            parser.shouldProcessNamespaces = false
+            do {
+                switch try parser.next() {
+                case .StartDocument:
+                    break
+                default:
+                    XCTFail("should be .StartDocument")
+                }
+                
+                switch try parser.next() {
+                case .StartElement(let name, let namespaceURI, let element):
+                    XCTAssertEqual(name, "w:document")
+                    XCTAssertNil(namespaceURI)
+                    XCTAssertEqual(element.name, "w:document")
+                    XCTAssertNil(element.namespaceURI)
+                    XCTAssertNil(element.qualifiedName)
+                    XCTAssertEqual(element.attributes.count, 1)
+                    XCTAssertEqual(element.attributes["xmlns:w"], "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
+                    break
+                default:
+                    XCTFail("should be .StartElement")
+                }
+                
+                switch try parser.next() {
+                case .StartElement(let name, let namespaceURI, let element):
+                    XCTAssertEqual(name, "w:rtl")
+                    XCTAssertNil(namespaceURI)
+                    XCTAssertEqual(element.name, "w:rtl")
+                    XCTAssertNil(element.namespaceURI)
+                    XCTAssertNil(element.qualifiedName)
+                    XCTAssertEqual(element.attributes.count, 1)
+                    XCTAssertEqual(element.attributes["w:val"], "0")
+                    break
+                default:
+                    XCTFail("should be .StartElement")
+                }
+
+                switch try parser.next() {
+                case .EndElement(let name, let namespaceURI):
+                    XCTAssertEqual(name, "w:rtl")
+                    XCTAssertNil(namespaceURI)
+                    break
+                default:
+                    XCTFail("should be .EndElement")
+                }
+                
+                switch try parser.next() {
+                case .EndElement(let name, let namespaceURI):
+                    XCTAssertEqual(name, "w:document")
+                    XCTAssertNil(namespaceURI)
+                    break
+                default:
+                    XCTFail("should be .EndElement")
+                }
+                
+                switch try parser.next() {
+                case .EndDocument:
+                    break
+                default:
+                    XCTFail("should be .EndDocument")
+                }
+            } catch {
+                XCTFail("error should not be occured")
+            }
+        }
+    }
+    
     func testParseError() {
         let xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<hoge>\nfoo\n<</hoge>"
         let parser = XMLPullParser(string: xml)
+        XCTAssertNotNil(parser)
         if let parser = parser {
-            XCTAssertNotNil(parser)
             do {
                 parsing: while true {
                     switch try parser.next() {
