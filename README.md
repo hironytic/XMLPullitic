@@ -13,20 +13,24 @@ XML pull parser for Swift
 ```swift
 let xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><foo>Hello World!</foo>"
 if let parser = XMLPullParser(string: xml) {
-    parsing: while true {
-        switch parser.next() {
-        case .StartDocument:
-            print("start document")
-        case .StartElement(let name, _, _):
-            print("start element: \(name)")
-        case .Characters(let text):
-            print("text: \(text)")
-        case .EndElement(let name, _):
-            print("end element: \(name)")
-        case .EndDocument:
-            print("end document")
-            break parsing
+    do {
+        parsing: while true {
+            switch try parser.next() {
+            case .StartDocument:
+                print("start document")
+            case .StartElement(let name, _, _):
+                print("start element: \(name)")
+            case .Characters(let text):
+                print("text: \(text)")
+            case .EndElement(let name, _):
+                print("end element: \(name)")
+            case .EndDocument:
+                print("end document")
+                break parsing
+            }
         }
+    } catch let error {
+        print("error: \(error)")
     }
 }
 ```

@@ -43,52 +43,80 @@ class XMLPulliticTests: XCTestCase {
         let parser = XMLPullParser(string: xml)
         XCTAssertNotNil(parser)
         if let parser = parser {
-            let event1 = parser.next()
-            switch event1 {
-            case .StartDocument:
-                break
-            default:
-                XCTFail("event1 should be .StartDocument")
+            do {
+                let event1 = try parser.next()
+                switch event1 {
+                case .StartDocument:
+                    break
+                default:
+                    XCTFail("event1 should be .StartDocument")
+                }
+                
+                let event2 = try parser.next()
+                switch event2 {
+                case .StartElement(let name, let namespaceURI, let element):
+                    XCTAssertEqual(name, "hoge")
+                    XCTAssertNil(namespaceURI)
+                    XCTAssertEqual(element.name, "hoge")
+                    XCTAssertNil(element.namespaceURI)
+                    XCTAssertNil(element.qualifiedName)
+                    XCTAssertEqual(element.attributes.count, 2)
+                    XCTAssertEqual(element.attributes["aa"], "11")
+                    XCTAssertEqual(element.attributes["bb"], "22")
+                default:
+                    XCTFail("event2 should be .StartElement")
+                }
+                
+                let event3 = try parser.next()
+                switch event3 {
+                case .Characters(let chars):
+                    XCTAssertEqual(chars, "foo")
+                default:
+                    XCTFail("event3 should be .Characters")
+                }
+                
+                let event4 = try parser.next()
+                switch event4 {
+                case .EndElement(let name, let namespaceURI):
+                    XCTAssertEqual(name, "hoge")
+                    XCTAssertNil(namespaceURI)
+                default:
+                    XCTFail("event4 should be .EndElement")
+                }
+                
+                let event5 = try parser.next()
+                switch event5 {
+                case .EndDocument:
+                    break
+                default:
+                    XCTFail("event5 should be .EndDocument")
+                }
+            } catch {
+                XCTFail("error should not be occured")
             }
-            
-            let event2 = parser.next()
-            switch event2 {
-            case .StartElement(let name, let namespaceURI, let element):
-                XCTAssertEqual(name, "hoge")
-                XCTAssertNil(namespaceURI)
-                XCTAssertEqual(element.name, "hoge")
-                XCTAssertNil(element.namespaceURI)
-                XCTAssertNil(element.qualifiedName)
-                XCTAssertEqual(element.attributes.count, 2)
-                XCTAssertEqual(element.attributes["aa"], "11")
-                XCTAssertEqual(element.attributes["bb"], "22")
-            default:
-                XCTFail("event2 should be .StartElement")
-            }
-            
-            let event3 = parser.next()
-            switch event3 {
-            case .Characters(let chars):
-                XCTAssertEqual(chars, "foo")
-            default:
-                XCTFail("event3 should be .Characters")
-            }
-            
-            let event4 = parser.next()
-            switch event4 {
-            case .EndElement(let name, let namespaceURI):
-                XCTAssertEqual(name, "hoge")
-                XCTAssertNil(namespaceURI)
-            default:
-                XCTFail("event4 should be .EndElement")
-            }
-            
-            let event5 = parser.next()
-            switch event5 {
-            case .EndDocument:
-                break
-            default:
-                XCTFail("event5 should be .EndDocument")
+        }
+    }
+    
+    func testParseError() {
+        let xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<hoge>\nfoo\n<</hoge>"
+        let parser = XMLPullParser(string: xml)
+        if let parser = parser {
+            XCTAssertNotNil(parser)
+            do {
+                parsing: while true {
+                    switch try parser.next() {
+                    case .EndDocument:
+                        break parsing
+                    default:
+                        break
+                    }
+                }
+                XCTFail("parse error should be occured")
+            } catch XMLPullParserError.ParseError(_) {
+                XCTAssertEqual(parser.lineNumber, 4)
+                XCTAssertEqual(parser.columnNumber, 2)
+            } catch {
+                XCTFail("another error should not be occured")
             }
         }
     }

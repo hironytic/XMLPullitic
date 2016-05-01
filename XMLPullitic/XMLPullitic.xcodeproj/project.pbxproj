@@ -13,6 +13,7 @@
 		50285CE81CD2D4E1008477E1 /* XMLPullParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285CE71CD2D4E1008477E1 /* XMLPullParser.swift */; };
 		50285CEA1CD2D552008477E1 /* XMLEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285CE91CD2D552008477E1 /* XMLEvent.swift */; };
 		50285CED1CD2E10F008477E1 /* XMLElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285CEC1CD2E10F008477E1 /* XMLElement.swift */; };
+		50285D2E1CD5AB69008477E1 /* XMLPullParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285D2D1CD5AB69008477E1 /* XMLPullParserError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,7 @@
 		50285CE71CD2D4E1008477E1 /* XMLPullParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLPullParser.swift; sourceTree = "<group>"; };
 		50285CE91CD2D552008477E1 /* XMLEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLEvent.swift; sourceTree = "<group>"; };
 		50285CEC1CD2E10F008477E1 /* XMLElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLElement.swift; sourceTree = "<group>"; };
+		50285D2D1CD5AB69008477E1 /* XMLPullParserError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLPullParserError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				50285CE71CD2D4E1008477E1 /* XMLPullParser.swift */,
+				50285D2D1CD5AB69008477E1 /* XMLPullParserError.swift */,
 				50285CE91CD2D552008477E1 /* XMLEvent.swift */,
 				50285CEC1CD2E10F008477E1 /* XMLElement.swift */,
 			);
@@ -212,6 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50285D2E1CD5AB69008477E1 /* XMLPullParserError.swift in Sources */,
 				50285CEA1CD2D552008477E1 /* XMLEvent.swift in Sources */,
 				50285CED1CD2E10F008477E1 /* XMLElement.swift in Sources */,
 				50285CE81CD2D4E1008477E1 /* XMLPullParser.swift in Sources */,
