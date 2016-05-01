@@ -105,10 +105,14 @@ public class XMLPullParser {
         case Ended
     }
     
+    enum EventOrError {
+        case Event(XMLEvent)
+        case Error(ErrorType)
+    }
+    
     let xmlParser: NSXMLParser
     let lock: NSConditionLock
-    var currentEvent: XMLEvent
-    var parseError: NSError?
+    var currentEventOrError: EventOrError
     var state: State
     var depth: Int
     
@@ -117,7 +121,7 @@ public class XMLPullParser {
     init(xmlParser: NSXMLParser) {
         self.xmlParser = xmlParser
         self.lock = NSConditionLock(condition: LockCondition.Requested)
-        self.currentEvent = XMLEvent.StartDocument
+        self.currentEventOrError = EventOrError.Event(XMLEvent.StartDocument)
         self.state = .NotStarted
         self.depth = 0
         
@@ -157,25 +161,24 @@ public class XMLPullParser {
         }
         
         lock.lockWhenCondition(LockCondition.Provided)
-        if let error = parseError {
+        switch currentEventOrError {
+        case .Error(let error):
             state = .Ended
             lock.unlock()
-            throw XMLPullParserError.ParseError(error)
-        }
-        switch currentEvent {
-        case .EndDocument:
+            throw error
+        case .Event(XMLEvent.EndDocument):
             state = .Ended
             lock.unlock()
-        default:
-            break
+            return XMLEvent.EndDocument
+        case .Event(let event):
+            return event
         }
-        return currentEvent
     }
 
     // MARK: methods called on background thread
     
-    func provideEvent(event: XMLEvent) {
-        currentEvent = event
+    func provide(eventOrError: EventOrError) {
+        currentEventOrError = eventOrError
         lock.unlockWithCondition(LockCondition.Provided)
     }
     
@@ -189,34 +192,33 @@ public class XMLPullParser {
     }
 
     @objc func parserDidStartDocument(parser: NSXMLParser) {
-        provideEvent(XMLEvent.StartDocument)
+        provide(.Event(.StartDocument))
         waitForNextRequest()
     }
     
     @objc func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         depth += 1
         let element = XMLElement(name: elementName, namespaceURI: namespaceURI, qualifiedName: qName, attributes: attributeDict)
-        provideEvent(XMLEvent.StartElement(elementName, namespaceURI, element))
+        provide(.Event(.StartElement(elementName, namespaceURI, element)))
         waitForNextRequest()
     }
     
     @objc func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        provideEvent(XMLEvent.EndElement(elementName, namespaceURI))
+        provide(.Event(.EndElement(elementName, namespaceURI)))
         depth -= 1
         waitForNextRequest()
     }
     
     @objc func parser(parser: NSXMLParser, foundCharacters string: String) {
-        provideEvent(XMLEvent.Characters(string))
+        provide(.Event(.Characters(string)))
         waitForNextRequest()
     }
     
     @objc func parserDidEndDocument(parser: NSXMLParser) {
-        provideEvent(XMLEvent.EndDocument)
+        provide(.Event(.EndDocument))
     }
     
     @objc func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
-        self.parseError = parseError
-        lock.unlockWithCondition(LockCondition.Provided)
+        provide(.Error(XMLPullParserError.ParseError(innerError: parseError)))
     }
 }

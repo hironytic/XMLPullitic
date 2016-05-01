@@ -26,5 +26,5 @@
 import Foundation
 
 public enum XMLPullParserError: ErrorType {
-    case ParseError(NSError)
+    case ParseError(innerError: NSError)
 }

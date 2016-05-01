@@ -92,7 +92,31 @@ class XMLPulliticTests: XCTestCase {
                     XCTFail("event5 should be .EndDocument")
                 }
             } catch {
-                XCTFail("error shoule not be occured")
+                XCTFail("error should not be occured")
+            }
+        }
+    }
+    
+    func testParseError() {
+        let xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<hoge>\nfoo\n<</hoge>"
+        let parser = XMLPullParser(string: xml)
+        if let parser = parser {
+            XCTAssertNotNil(parser)
+            do {
+                parsing: while true {
+                    switch try parser.next() {
+                    case .EndDocument:
+                        break parsing
+                    default:
+                        break
+                    }
+                }
+                XCTFail("parse error should be occured")
+            } catch XMLPullParserError.ParseError(_) {
+                XCTAssertEqual(parser.lineNumber, 4)
+                XCTAssertEqual(parser.columnNumber, 2)
+            } catch {
+                XCTFail("another error should not be occured")
             }
         }
     }
