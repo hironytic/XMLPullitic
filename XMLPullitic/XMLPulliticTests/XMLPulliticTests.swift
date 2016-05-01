@@ -43,52 +43,56 @@ class XMLPulliticTests: XCTestCase {
         let parser = XMLPullParser(string: xml)
         XCTAssertNotNil(parser)
         if let parser = parser {
-            let event1 = parser.next()
-            switch event1 {
-            case .StartDocument:
-                break
-            default:
-                XCTFail("event1 should be .StartDocument")
-            }
-            
-            let event2 = parser.next()
-            switch event2 {
-            case .StartElement(let name, let namespaceURI, let element):
-                XCTAssertEqual(name, "hoge")
-                XCTAssertNil(namespaceURI)
-                XCTAssertEqual(element.name, "hoge")
-                XCTAssertNil(element.namespaceURI)
-                XCTAssertNil(element.qualifiedName)
-                XCTAssertEqual(element.attributes.count, 2)
-                XCTAssertEqual(element.attributes["aa"], "11")
-                XCTAssertEqual(element.attributes["bb"], "22")
-            default:
-                XCTFail("event2 should be .StartElement")
-            }
-            
-            let event3 = parser.next()
-            switch event3 {
-            case .Characters(let chars):
-                XCTAssertEqual(chars, "foo")
-            default:
-                XCTFail("event3 should be .Characters")
-            }
-            
-            let event4 = parser.next()
-            switch event4 {
-            case .EndElement(let name, let namespaceURI):
-                XCTAssertEqual(name, "hoge")
-                XCTAssertNil(namespaceURI)
-            default:
-                XCTFail("event4 should be .EndElement")
-            }
-            
-            let event5 = parser.next()
-            switch event5 {
-            case .EndDocument:
-                break
-            default:
-                XCTFail("event5 should be .EndDocument")
+            do {
+                let event1 = try parser.next()
+                switch event1 {
+                case .StartDocument:
+                    break
+                default:
+                    XCTFail("event1 should be .StartDocument")
+                }
+                
+                let event2 = try parser.next()
+                switch event2 {
+                case .StartElement(let name, let namespaceURI, let element):
+                    XCTAssertEqual(name, "hoge")
+                    XCTAssertNil(namespaceURI)
+                    XCTAssertEqual(element.name, "hoge")
+                    XCTAssertNil(element.namespaceURI)
+                    XCTAssertNil(element.qualifiedName)
+                    XCTAssertEqual(element.attributes.count, 2)
+                    XCTAssertEqual(element.attributes["aa"], "11")
+                    XCTAssertEqual(element.attributes["bb"], "22")
+                default:
+                    XCTFail("event2 should be .StartElement")
+                }
+                
+                let event3 = try parser.next()
+                switch event3 {
+                case .Characters(let chars):
+                    XCTAssertEqual(chars, "foo")
+                default:
+                    XCTFail("event3 should be .Characters")
+                }
+                
+                let event4 = try parser.next()
+                switch event4 {
+                case .EndElement(let name, let namespaceURI):
+                    XCTAssertEqual(name, "hoge")
+                    XCTAssertNil(namespaceURI)
+                default:
+                    XCTFail("event4 should be .EndElement")
+                }
+                
+                let event5 = try parser.next()
+                switch event5 {
+                case .EndDocument:
+                    break
+                default:
+                    XCTFail("event5 should be .EndDocument")
+                }
+            } catch {
+                XCTFail("error shoule not be occured")
             }
         }
     }

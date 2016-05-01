@@ -81,8 +81,8 @@ public class XMLPullParser {
         }
     }
     
-    public func next() -> XMLEvent {
-        return internalParser.requestEvent()
+    public func next() throws -> XMLEvent {
+        return try internalParser.requestEvent()
     }
 
     public func abortParsing() {
@@ -108,6 +108,7 @@ public class XMLPullParser {
     let xmlParser: NSXMLParser
     let lock: NSConditionLock
     var currentEvent: XMLEvent
+    var parseError: NSError?
     var state: State
     var depth: Int
     
@@ -136,7 +137,7 @@ public class XMLPullParser {
         lock.unlock()
     }
     
-    func requestEvent() -> XMLEvent {
+    func requestEvent() throws -> XMLEvent {
         switch state {
         case .NotStarted:
             state = .Parsing
@@ -156,6 +157,11 @@ public class XMLPullParser {
         }
         
         lock.lockWhenCondition(LockCondition.Provided)
+        if let error = parseError {
+            state = .Ended
+            lock.unlock()
+            throw XMLPullParserError.ParseError(error)
+        }
         switch currentEvent {
         case .EndDocument:
             state = .Ended
@@ -207,5 +213,10 @@ public class XMLPullParser {
     
     @objc func parserDidEndDocument(parser: NSXMLParser) {
         provideEvent(XMLEvent.EndDocument)
+    }
+    
+    @objc func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
+        self.parseError = parseError
+        lock.unlockWithCondition(LockCondition.Provided)
     }
 }
