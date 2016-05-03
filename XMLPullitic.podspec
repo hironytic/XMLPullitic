@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "XMLPullitic"
-  s.version          = "0.1.0"
+  s.version          = "0.2.0"
   s.summary          = "XML pull parser for Swift"
 
   s.description      = <<-DESC
