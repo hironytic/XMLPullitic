@@ -14,6 +14,7 @@
 		50285CEA1CD2D552008477E1 /* XMLEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285CE91CD2D552008477E1 /* XMLEvent.swift */; };
 		50285CED1CD2E10F008477E1 /* XMLElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285CEC1CD2E10F008477E1 /* XMLElement.swift */; };
 		50285D2E1CD5AB69008477E1 /* XMLPullParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285D2D1CD5AB69008477E1 /* XMLPullParserError.swift */; };
+		50285D311CD83100008477E1 /* test1.xml in Resources */ = {isa = PBXBuildFile; fileRef = 50285D2F1CD82EB1008477E1 /* test1.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 		50285CE91CD2D552008477E1 /* XMLEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLEvent.swift; sourceTree = "<group>"; };
 		50285CEC1CD2E10F008477E1 /* XMLElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLElement.swift; sourceTree = "<group>"; };
 		50285D2D1CD5AB69008477E1 /* XMLPullParserError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLPullParserError.swift; sourceTree = "<group>"; };
+		50285D2F1CD82EB1008477E1 /* test1.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = test1.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				50285CDB1CD2C897008477E1 /* XMLPulliticTests.swift */,
+				50285D2F1CD82EB1008477E1 /* test1.xml */,
 				50285CDD1CD2C897008477E1 /* Info.plist */,
 			);
 			path = XMLPulliticTests;
@@ -205,6 +208,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50285D311CD83100008477E1 /* test1.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

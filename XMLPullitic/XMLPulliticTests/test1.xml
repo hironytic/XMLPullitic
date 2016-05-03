@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<localeDef version="6" xmlns="http://hironytic.1st-shrine.net/schema/CoveredCalc-LocaleDefinition">
+	<platform target="BeOS"/>
+	
+	<langName>Japanese</langName>
+	<langCode>jaJP</langCode>
+
+  <!-- menu item -->
+	<!-- IDM_MAIN_CONTEXT -->
+	<string name="ID_COVER_BROWSER">~B: カバーブラウザ</string>
+</localeDef>

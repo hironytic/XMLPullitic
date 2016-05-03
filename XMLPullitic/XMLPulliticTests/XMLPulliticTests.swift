@@ -246,6 +246,66 @@ class XMLPulliticTests: XCTestCase {
         }
     }
     
+    func testParseXMLData() {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let xmlFile = bundle.pathForResource("test1", ofType: "xml")
+        let data = NSData(contentsOfFile: xmlFile!)
+        let parser = XMLPullParser(data: data!)
+        do {
+            parsing: while true {
+                switch try parser.next() {
+                case .EndDocument:
+                    break parsing
+                default:
+                    break
+                }
+            }
+        } catch {
+            XCTFail("error occured")
+        }
+    }
+    
+    func testParseXMLAtURL() {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let xmlFile = bundle.pathForResource("test1", ofType: "xml")
+        let xmlURL = NSURL(fileURLWithPath: xmlFile!)
+        let parser = XMLPullParser(contentsOfURL: xmlURL)
+        XCTAssertNotNil(parser)
+        if let parser = parser {
+            do {
+                parsing: while true {
+                    switch try parser.next() {
+                    case .EndDocument:
+                        break parsing
+                    default:
+                        break
+                    }
+                }
+            } catch {
+                XCTFail("error occured")
+            }
+        }
+    }
+    
+    func testParseXMLInStream() {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let xmlFile = bundle.pathForResource("test1", ofType: "xml")
+        let inputStream = NSInputStream(fileAtPath: xmlFile!)
+        let parser = XMLPullParser(stream: inputStream!)
+        do {
+            parsing: while true {
+                switch try parser.next() {
+                case .EndDocument:
+                    break parsing
+                default:
+                    break
+                }
+            }
+        } catch {
+            XCTFail("error occured")
+        }
+    }
+    
     func testParseError() {
         let xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<hoge>\nfoo\n<</hoge>"
         let parser = XMLPullParser(string: xml)
