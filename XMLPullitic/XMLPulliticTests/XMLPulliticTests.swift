@@ -395,4 +395,36 @@ class XMLPulliticTests: XCTestCase {
             }
         }
     }
+    
+    func testAbort() {
+        let xml = "<foo><bar>text</bar></foo>"
+        let parser = XMLPullParser(string: xml)
+        XCTAssertNotNil(parser)
+        if let parser = parser {
+            do {
+                switch try parser.next() {
+                case .StartDocument:
+                    break
+                default:
+                    XCTFail("should be .StartDocument")
+                }
+                
+                switch try parser.next() {
+                case .StartElement("foo", _, _):
+                    break
+                default:
+                    XCTFail("should be .StartElement(\"foo\", _, _)")
+                }
+                
+                switch try parser.next() {
+                case .StartElement("bar", _, _):
+                    parser.abortParsing()
+                default:
+                    XCTFail("should be .StartElement(\"bar\", _, _)")
+                }
+            } catch {
+                XCTFail("another error should not be occured")
+            }
+        }
+    }
 }
