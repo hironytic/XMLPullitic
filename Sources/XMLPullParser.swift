@@ -205,8 +205,8 @@ public class XMLPullParser {
     
     @objc func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         provide(.Event(.EndElement(name: elementName, namespaceURI: namespaceURI)))
-        depth -= 1
         waitForNextRequest()
+        depth -= 1
     }
     
     @objc func parser(parser: NSXMLParser, foundCharacters string: String) {

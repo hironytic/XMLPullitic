@@ -329,4 +329,70 @@ class XMLPulliticTests: XCTestCase {
             }
         }
     }
+    
+    func testDepth() {
+        let xml = "<foo><bar>text</bar></foo>"
+        let parser = XMLPullParser(string: xml)
+        XCTAssertNotNil(parser)
+        if let parser = parser {
+            do {
+                switch try parser.next() {
+                case .StartDocument:
+                    XCTAssertEqual(parser.depth, 0)
+                default:
+                    XCTFail("should be .StartDocument")
+                }
+
+                switch try parser.next() {
+                case .StartElement("foo", _, _):
+                    XCTAssertEqual(parser.depth, 1)
+                    break
+                default:
+                    XCTFail("should be .StartElement(\"foo\", _, _)")
+                }
+
+                switch try parser.next() {
+                case .StartElement("bar", _, _):
+                    XCTAssertEqual(parser.depth, 2)
+                    break
+                default:
+                    XCTFail("should be .StartElement(\"bar\", _, _)")
+                }
+                
+                switch try parser.next() {
+                case .Characters(_):
+                    XCTAssertEqual(parser.depth, 2)
+                    break
+                default:
+                    XCTFail("should be .Characters")
+                }
+
+                switch try parser.next() {
+                case .EndElement("bar", _):
+                    XCTAssertEqual(parser.depth, 2)
+                    break
+                default:
+                    XCTFail("should be .EndElement(\"bar\", _)")
+                }
+                
+                switch try parser.next() {
+                case .EndElement("foo", _):
+                    XCTAssertEqual(parser.depth, 1)
+                    break
+                default:
+                    XCTFail("should be .EndElement(\"foo\", _)")
+                }
+
+                switch try parser.next() {
+                case .EndDocument:
+                    XCTAssertEqual(parser.depth, 0)
+                    break
+                default:
+                    XCTFail("should be .EndDocument")
+                }
+            } catch {
+                XCTFail("another error should not be occured")
+            }
+        }
+    }
 }
