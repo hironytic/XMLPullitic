@@ -452,7 +452,7 @@ class XMLPulliticTests: XCTestCase {
                 case .Characters(let text):
                     XCTAssertEqual(text, "This is text in a <foo> element")
                 default:
-                    XCTFail("should be .StartElement(\"bar\", _, _)")
+                    XCTFail("should be .Characters")
                 }
                 
                 switch try parser.next() {
