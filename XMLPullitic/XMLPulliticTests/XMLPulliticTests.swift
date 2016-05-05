@@ -427,4 +427,50 @@ class XMLPulliticTests: XCTestCase {
             }
         }
     }
+    
+    func testCharacters() {
+        let xml = "<foo>This is text in a &lt;foo&gt; element</foo>"
+        let parser = XMLPullParser(string: xml)
+        XCTAssertNotNil(parser)
+        if let parser = parser {
+            do {
+                switch try parser.next() {
+                case .StartDocument:
+                    break
+                default:
+                    XCTFail("should be .StartDocument")
+                }
+                
+                switch try parser.next() {
+                case .StartElement("foo", _, _):
+                    break
+                default:
+                    XCTFail("should be .StartElement(\"foo\", _, _)")
+                }
+                
+                switch try parser.next() {
+                case .Characters(let text):
+                    XCTAssertEqual(text, "This is text in a <foo> element")
+                default:
+                    XCTFail("should be .StartElement(\"bar\", _, _)")
+                }
+                
+                switch try parser.next() {
+                case .EndElement("foo", _):
+                    break
+                default:
+                    XCTFail("should be .EndElement(\"foo\", _, _)")
+                }
+                
+                switch try parser.next() {
+                case .EndDocument:
+                    break
+                default:
+                    XCTFail("should be .EndDocument")
+                }
+            } catch {
+                XCTFail("another error should not be occured")
+            }
+        }
+    }
 }
