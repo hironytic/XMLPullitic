@@ -115,6 +115,7 @@ public class XMLPullParser {
     var currentEventOrError: EventOrError
     var state: State
     var depth: Int
+    var accumulatedChars: String?
     
     // MARK: methods called on original thread
     
@@ -178,11 +179,21 @@ public class XMLPullParser {
     // MARK: methods called on background thread
     
     func provide(eventOrError: EventOrError) {
-        currentEventOrError = eventOrError
-        lock.unlockWithCondition(LockCondition.Provided)
+        if let chars = accumulatedChars {
+            accumulatedChars = nil
+            provide(.Event(.Characters(chars)))
+            waitForNextRequest()
+        }
+        
+        if (state == .Parsing) {
+            currentEventOrError = eventOrError
+            lock.unlockWithCondition(LockCondition.Provided)
+        }
     }
     
     func waitForNextRequest() {
+        guard state == .Parsing else { return }
+        
         lock.lockWhenCondition(LockCondition.Requested)
         if (state == .Aborted) {
             xmlParser.abortParsing()
@@ -190,7 +201,11 @@ public class XMLPullParser {
             lock.unlockWithCondition(LockCondition.Provided)
         }
     }
-
+    
+    func accumulate(characters chars: String) {
+        accumulatedChars = (accumulatedChars ?? "") + chars
+    }
+    
     @objc func parserDidStartDocument(parser: NSXMLParser) {
         provide(.Event(.StartDocument))
         waitForNextRequest()
@@ -210,8 +225,7 @@ public class XMLPullParser {
     }
     
     @objc func parser(parser: NSXMLParser, foundCharacters string: String) {
-        provide(.Event(.Characters(string)))
-        waitForNextRequest()
+        accumulate(characters: string)
     }
     
     @objc func parserDidEndDocument(parser: NSXMLParser) {
