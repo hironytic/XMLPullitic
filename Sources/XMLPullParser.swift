@@ -235,4 +235,10 @@ public class XMLPullParser {
     @objc func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         provide(.Error(XMLPullParserError.ParseError(innerError: parseError)))
     }
+    
+    @objc func parser(parser: NSXMLParser, foundCDATA CDATABlock: NSData) {
+        if let text = NSString(data: CDATABlock, encoding: NSUTF8StringEncoding) {
+            accumulate(characters: text as String)
+        }
+    }
 }
