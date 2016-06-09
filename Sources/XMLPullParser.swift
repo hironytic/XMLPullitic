@@ -136,10 +136,6 @@ public class XMLPullParser {
         
         // awake wating parser
         lock.unlockWithCondition(LockCondition.Requested)
-        
-        // wait for aborting
-        lock.lockWhenCondition(LockCondition.Provided)
-        lock.unlock()
     }
     
     func requestEvent() throws -> XMLEvent {
@@ -192,13 +188,19 @@ public class XMLPullParser {
     }
     
     func waitForNextRequest() {
-        guard state == .Parsing else { return }
+        guard state == .Parsing else {
+            if (state == .Aborted && xmlParser.delegate != nil) {
+                xmlParser.delegate = nil
+                xmlParser.abortParsing()
+            }
+            return
+        }
         
         lock.lockWhenCondition(LockCondition.Requested)
         if (state == .Aborted) {
-            xmlParser.abortParsing()
             xmlParser.delegate = nil
-            lock.unlockWithCondition(LockCondition.Provided)
+            xmlParser.abortParsing()
+            lock.unlock()
         }
     }
     
