@@ -6,7 +6,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/XMLPullitic.svg?style=flat)](http://cocoapods.org/pods/XMLPullitic)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-XML pull parser for Swift
+Swifty XML pull parser
 
 ## Usage
 
@@ -32,6 +32,30 @@ if let parser = XMLPullParser(string: xml) {
     } catch let error {
         print("error: \(error)")
     }
+}
+```
+
+Thanks to swift's pattern matching feature, you can easily handle start of elements like this:
+```swift
+let event = try parser.next()
+switch event {
+case .StartElement("foo", _, _):
+    // handle start of <foo>
+    print("foo: \(event)")
+case .StartElement("bar", _, _):
+    // handle start of <bar>
+    print("bar: \(event)")
+case .StartElement("baz", "http://example.com/ns/1.0"?, let element):
+    // handle start of <baz>, whose namespace URI is http://example.com/ns/1.0
+    // note: you must set parser.shouldProcessNamespaces true to handle namespaces
+  
+    // you can get attributes from XmlElement object
+    print(element.attributes["xyz"])
+case .StartElement(_, _, _):
+    // handle start of other elements
+    print("other: \(event)")
+default:
+    break
 }
 ```
 
