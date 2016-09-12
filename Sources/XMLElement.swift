@@ -25,11 +25,11 @@
 
 import Foundation
 
-public class XMLElement {
-    public let name: String
-    public let namespaceURI: String?
-    public let qualifiedName: String?
-    public let attributes: [String: String]
+open class XMLElement {
+    open let name: String
+    open let namespaceURI: String?
+    open let qualifiedName: String?
+    open let attributes: [String: String]
     
     public init(name: String, namespaceURI: String?, qualifiedName: String?, attributes: [String: String]) {
         self.name = name

@@ -46,7 +46,7 @@ class XMLPulliticTests: XCTestCase {
             do {
                 let event1 = try parser.next()
                 switch event1 {
-                case .StartDocument:
+                case .startDocument:
                     break
                 default:
                     XCTFail("event1 should be .StartDocument")
@@ -54,7 +54,7 @@ class XMLPulliticTests: XCTestCase {
                 
                 let event2 = try parser.next()
                 switch event2 {
-                case .StartElement(let name, let namespaceURI, let element):
+                case .startElement(let name, let namespaceURI, let element):
                     XCTAssertEqual(name, "hoge")
                     XCTAssertNil(namespaceURI)
                     XCTAssertEqual(element.name, "hoge")
@@ -69,7 +69,7 @@ class XMLPulliticTests: XCTestCase {
                 
                 let event3 = try parser.next()
                 switch event3 {
-                case .Characters(let chars):
+                case .characters(let chars):
                     XCTAssertEqual(chars, "foo")
                 default:
                     XCTFail("event3 should be .Characters")
@@ -77,7 +77,7 @@ class XMLPulliticTests: XCTestCase {
                 
                 let event4 = try parser.next()
                 switch event4 {
-                case .EndElement(let name, let namespaceURI):
+                case .endElement(let name, let namespaceURI):
                     XCTAssertEqual(name, "hoge")
                     XCTAssertNil(namespaceURI)
                 default:
@@ -86,7 +86,7 @@ class XMLPulliticTests: XCTestCase {
                 
                 let event5 = try parser.next()
                 switch event5 {
-                case .EndDocument:
+                case .endDocument:
                     break
                 default:
                     XCTFail("event5 should be .EndDocument")
@@ -108,14 +108,14 @@ class XMLPulliticTests: XCTestCase {
             parser.shouldProcessNamespaces = true
             do {
                 switch try parser.next() {
-                case .StartDocument:
+                case .startDocument:
                     break
                 default:
                     XCTFail("should be .StartDocument")
                 }
                 
                 switch try parser.next() {
-                case .StartElement(let name, let namespaceURI, let element):
+                case .startElement(let name, let namespaceURI, let element):
                     XCTAssertEqual(name, "document")
                     XCTAssertEqual(namespaceURI, "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
                     XCTAssertEqual(element.name, "document")
@@ -128,7 +128,7 @@ class XMLPulliticTests: XCTestCase {
                 }
                 
                 switch try parser.next() {
-                case .StartElement(let name, let namespaceURI, let element):
+                case .startElement(let name, let namespaceURI, let element):
                     XCTAssertEqual(name, "rtl")
                     XCTAssertEqual(namespaceURI, "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
                     XCTAssertEqual(element.name, "rtl")
@@ -142,7 +142,7 @@ class XMLPulliticTests: XCTestCase {
                 }
                 
                 switch try parser.next() {
-                case .EndElement(let name, let namespaceURI):
+                case .endElement(let name, let namespaceURI):
                     XCTAssertEqual(name, "rtl")
                     XCTAssertEqual(namespaceURI, "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
                     break
@@ -151,7 +151,7 @@ class XMLPulliticTests: XCTestCase {
                 }
                 
                 switch try parser.next() {
-                case .EndElement(let name, let namespaceURI):
+                case .endElement(let name, let namespaceURI):
                     XCTAssertEqual(name, "document")
                     XCTAssertEqual(namespaceURI, "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
                     break
@@ -160,7 +160,7 @@ class XMLPulliticTests: XCTestCase {
                 }
                 
                 switch try parser.next() {
-                case .EndDocument:
+                case .endDocument:
                     break
                 default:
                     XCTFail("should be .EndDocument")
@@ -182,14 +182,14 @@ class XMLPulliticTests: XCTestCase {
             parser.shouldProcessNamespaces = false
             do {
                 switch try parser.next() {
-                case .StartDocument:
+                case .startDocument:
                     break
                 default:
                     XCTFail("should be .StartDocument")
                 }
                 
                 switch try parser.next() {
-                case .StartElement(let name, let namespaceURI, let element):
+                case .startElement(let name, let namespaceURI, let element):
                     XCTAssertEqual(name, "w:document")
                     XCTAssertNil(namespaceURI)
                     XCTAssertEqual(element.name, "w:document")
@@ -203,7 +203,7 @@ class XMLPulliticTests: XCTestCase {
                 }
                 
                 switch try parser.next() {
-                case .StartElement(let name, let namespaceURI, let element):
+                case .startElement(let name, let namespaceURI, let element):
                     XCTAssertEqual(name, "w:rtl")
                     XCTAssertNil(namespaceURI)
                     XCTAssertEqual(element.name, "w:rtl")
@@ -217,7 +217,7 @@ class XMLPulliticTests: XCTestCase {
                 }
 
                 switch try parser.next() {
-                case .EndElement(let name, let namespaceURI):
+                case .endElement(let name, let namespaceURI):
                     XCTAssertEqual(name, "w:rtl")
                     XCTAssertNil(namespaceURI)
                     break
@@ -226,7 +226,7 @@ class XMLPulliticTests: XCTestCase {
                 }
                 
                 switch try parser.next() {
-                case .EndElement(let name, let namespaceURI):
+                case .endElement(let name, let namespaceURI):
                     XCTAssertEqual(name, "w:document")
                     XCTAssertNil(namespaceURI)
                     break
@@ -235,7 +235,7 @@ class XMLPulliticTests: XCTestCase {
                 }
                 
                 switch try parser.next() {
-                case .EndDocument:
+                case .endDocument:
                     break
                 default:
                     XCTFail("should be .EndDocument")
@@ -247,14 +247,14 @@ class XMLPulliticTests: XCTestCase {
     }
     
     func testParseXMLData() {
-        let bundle = NSBundle(forClass: self.dynamicType)
-        let xmlFile = bundle.pathForResource("test1", ofType: "xml")
-        let data = NSData(contentsOfFile: xmlFile!)
+        let bundle = Bundle(for: type(of: self))
+        let xmlFile = bundle.path(forResource: "test1", ofType: "xml")
+        let data = try? Data(contentsOf: URL(fileURLWithPath: xmlFile!))
         let parser = XMLPullParser(data: data!)
         do {
             parsing: while true {
                 switch try parser.next() {
-                case .EndDocument:
+                case .endDocument:
                     break parsing
                 default:
                     break
@@ -266,16 +266,16 @@ class XMLPulliticTests: XCTestCase {
     }
     
     func testParseXMLAtURL() {
-        let bundle = NSBundle(forClass: self.dynamicType)
-        let xmlFile = bundle.pathForResource("test1", ofType: "xml")
-        let xmlURL = NSURL(fileURLWithPath: xmlFile!)
+        let bundle = Bundle(for: type(of: self))
+        let xmlFile = bundle.path(forResource: "test1", ofType: "xml")
+        let xmlURL = URL(fileURLWithPath: xmlFile!)
         let parser = XMLPullParser(contentsOfURL: xmlURL)
         XCTAssertNotNil(parser)
         if let parser = parser {
             do {
                 parsing: while true {
                     switch try parser.next() {
-                    case .EndDocument:
+                    case .endDocument:
                         break parsing
                     default:
                         break
@@ -288,14 +288,14 @@ class XMLPulliticTests: XCTestCase {
     }
     
     func testParseXMLInStream() {
-        let bundle = NSBundle(forClass: self.dynamicType)
-        let xmlFile = bundle.pathForResource("test1", ofType: "xml")
-        let inputStream = NSInputStream(fileAtPath: xmlFile!)
+        let bundle = Bundle(for: type(of: self))
+        let xmlFile = bundle.path(forResource: "test1", ofType: "xml")
+        let inputStream = InputStream(fileAtPath: xmlFile!)
         let parser = XMLPullParser(stream: inputStream!)
         do {
             parsing: while true {
                 switch try parser.next() {
-                case .EndDocument:
+                case .endDocument:
                     break parsing
                 default:
                     break
@@ -314,14 +314,14 @@ class XMLPulliticTests: XCTestCase {
             do {
                 parsing: while true {
                     switch try parser.next() {
-                    case .EndDocument:
+                    case .endDocument:
                         break parsing
                     default:
                         break
                     }
                 }
                 XCTFail("parse error should be occured")
-            } catch XMLPullParserError.ParseError(_) {
+            } catch XMLPullParserError.parseError(_) {
                 XCTAssertEqual(parser.lineNumber, 4)
                 XCTAssertEqual(parser.columnNumber, 2)
             } catch {
@@ -337,14 +337,14 @@ class XMLPulliticTests: XCTestCase {
         if let parser = parser {
             do {
                 switch try parser.next() {
-                case .StartDocument:
+                case .startDocument:
                     XCTAssertEqual(parser.depth, 0)
                 default:
                     XCTFail("should be .StartDocument")
                 }
 
                 switch try parser.next() {
-                case .StartElement("foo", _, _):
+                case .startElement("foo", _, _):
                     XCTAssertEqual(parser.depth, 1)
                     break
                 default:
@@ -352,7 +352,7 @@ class XMLPulliticTests: XCTestCase {
                 }
 
                 switch try parser.next() {
-                case .StartElement("bar", _, _):
+                case .startElement("bar", _, _):
                     XCTAssertEqual(parser.depth, 2)
                     break
                 default:
@@ -360,7 +360,7 @@ class XMLPulliticTests: XCTestCase {
                 }
                 
                 switch try parser.next() {
-                case .Characters(_):
+                case .characters(_):
                     XCTAssertEqual(parser.depth, 2)
                     break
                 default:
@@ -368,7 +368,7 @@ class XMLPulliticTests: XCTestCase {
                 }
 
                 switch try parser.next() {
-                case .EndElement("bar", _):
+                case .endElement("bar", _):
                     XCTAssertEqual(parser.depth, 2)
                     break
                 default:
@@ -376,7 +376,7 @@ class XMLPulliticTests: XCTestCase {
                 }
                 
                 switch try parser.next() {
-                case .EndElement("foo", _):
+                case .endElement("foo", _):
                     XCTAssertEqual(parser.depth, 1)
                     break
                 default:
@@ -384,7 +384,7 @@ class XMLPulliticTests: XCTestCase {
                 }
 
                 switch try parser.next() {
-                case .EndDocument:
+                case .endDocument:
                     XCTAssertEqual(parser.depth, 0)
                     break
                 default:
@@ -403,21 +403,21 @@ class XMLPulliticTests: XCTestCase {
         if let parser = parser {
             do {
                 switch try parser.next() {
-                case .StartDocument:
+                case .startDocument:
                     break
                 default:
                     XCTFail("should be .StartDocument")
                 }
                 
                 switch try parser.next() {
-                case .StartElement("foo", _, _):
+                case .startElement("foo", _, _):
                     break
                 default:
                     XCTFail("should be .StartElement(\"foo\", _, _)")
                 }
                 
                 switch try parser.next() {
-                case .StartElement("bar", _, _):
+                case .startElement("bar", _, _):
                     parser.abortParsing()
                 default:
                     XCTFail("should be .StartElement(\"bar\", _, _)")
@@ -435,35 +435,35 @@ class XMLPulliticTests: XCTestCase {
         if let parser = parser {
             do {
                 switch try parser.next() {
-                case .StartDocument:
+                case .startDocument:
                     break
                 default:
                     XCTFail("should be .StartDocument")
                 }
                 
                 switch try parser.next() {
-                case .StartElement("foo", _, _):
+                case .startElement("foo", _, _):
                     break
                 default:
                     XCTFail("should be .StartElement(\"foo\", _, _)")
                 }
                 
                 switch try parser.next() {
-                case .Characters(let text):
+                case .characters(let text):
                     XCTAssertEqual(text, "This is text in a <foo> element")
                 default:
                     XCTFail("should be .Characters")
                 }
                 
                 switch try parser.next() {
-                case .EndElement("foo", _):
+                case .endElement("foo", _):
                     break
                 default:
                     XCTFail("should be .EndElement(\"foo\", _, _)")
                 }
                 
                 switch try parser.next() {
-                case .EndDocument:
+                case .endDocument:
                     break
                 default:
                     XCTFail("should be .EndDocument")
@@ -481,35 +481,35 @@ class XMLPulliticTests: XCTestCase {
         if let parser = parser {
             do {
                 switch try parser.next() {
-                case .StartDocument:
+                case .startDocument:
                     break
                 default:
                     XCTFail("should be .StartDocument")
                 }
                 
                 switch try parser.next() {
-                case .StartElement("foo", _, _):
+                case .startElement("foo", _, _):
                     break
                 default:
                     XCTFail("should be .StartElement(\"foo\", _, _)")
                 }
                 
                 switch try parser.next() {
-                case .Characters(let text):
+                case .characters(let text):
                     XCTAssertEqual(text, "This is text in a <foo> element")
                 default:
                     XCTFail("should be .Characters")
                 }
                 
                 switch try parser.next() {
-                case .EndElement("foo", _):
+                case .endElement("foo", _):
                     break
                 default:
                     XCTFail("should be .EndElement(\"foo\", _, _)")
                 }
                 
                 switch try parser.next() {
-                case .EndDocument:
+                case .endDocument:
                     break
                 default:
                     XCTFail("should be .EndDocument")
