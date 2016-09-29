@@ -25,8 +25,8 @@
 
 import Foundation
 
-open class XMLPullParser {
-    fileprivate var internalParser: InternalXMLParser
+public class XMLPullParser {
+    private var internalParser: InternalXMLParser
     
     public convenience init?(contentsOfURL url: URL) {
         guard let parser = XMLParser(contentsOf:url) else { return nil }
@@ -54,7 +54,7 @@ open class XMLPullParser {
         abortParsing()
     }
 
-    open var shouldProcessNamespaces: Bool {
+    public var shouldProcessNamespaces: Bool {
         get {
             return self.internalParser.xmlParser.shouldProcessNamespaces
         }
@@ -63,29 +63,29 @@ open class XMLPullParser {
         }
     }
     
-    open var lineNumber: Int {
+    public var lineNumber: Int {
         get {
             return self.internalParser.xmlParser.lineNumber
         }
     }
     
-    open var columnNumber: Int {
+    public var columnNumber: Int {
         get {
             return self.internalParser.xmlParser.columnNumber
         }
     }
     
-    open var depth: Int {
+    public var depth: Int {
         get {
             return self.internalParser.depth
         }
     }
     
-    open func next() throws -> XMLEvent {
+    public func next() throws -> XMLEvent {
         return try internalParser.requestEvent()
     }
 
-    open func abortParsing() {
+    public func abortParsing() {
         internalParser.abortParsing()
     }
 }

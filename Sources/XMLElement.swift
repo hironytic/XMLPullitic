@@ -1,5 +1,5 @@
 //
-// XMLTag.swift
+// XMLElement.swift
 // XMLPullitic
 //
 // Copyright (c) 2016 Hironori Ichimiya <hiron@hironytic.com>
@@ -25,11 +25,11 @@
 
 import Foundation
 
-open class XMLElement {
-    open let name: String
-    open let namespaceURI: String?
-    open let qualifiedName: String?
-    open let attributes: [String: String]
+public class XMLElement {
+    public let name: String
+    public let namespaceURI: String?
+    public let qualifiedName: String?
+    public let attributes: [String: String]
     
     public init(name: String, namespaceURI: String?, qualifiedName: String?, attributes: [String: String]) {
         self.name = name
