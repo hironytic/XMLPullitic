@@ -16,15 +16,15 @@ if let parser = XMLPullParser(string: xml) {
     do {
         parsing: while true {
             switch try parser.next() {
-            case .StartDocument:
+            case .startDocument:
                 print("start document")
-            case .StartElement(let name, _, _):
+            case .startElement(let name, _, _):
                 print("start element: \(name)")
-            case .Characters(let text):
+            case .characters(let text):
                 print("text: \(text)")
-            case .EndElement(let name, _):
+            case .endElement(let name, _):
                 print("end element: \(name)")
-            case .EndDocument:
+            case .endDocument:
                 print("end document")
                 break parsing
             }
@@ -39,19 +39,19 @@ Thanks to swift's pattern matching feature, you can easily handle start of eleme
 ```swift
 let event = try parser.next()
 switch event {
-case .StartElement("foo", _, _):
+case .startElement("foo", _, _):
     // handle start of <foo>
     print("foo: \(event)")
-case .StartElement("bar", _, _):
+case .startElement("bar", _, _):
     // handle start of <bar>
     print("bar: \(event)")
-case .StartElement("baz", "http://example.com/ns/1.0"?, let element):
+case .startElement("baz", "http://example.com/ns/1.0"?, let element):
     // handle start of <baz>, whose namespace URI is http://example.com/ns/1.0
     // note: you must set parser.shouldProcessNamespaces true to handle namespaces
   
     // you can get attributes from XmlElement object
     print(element.attributes["xyz"])
-case .StartElement(_, _, _):
+case .startElement(_, _, _):
     // handle start of other elements
     print("other: \(event)")
 default:
@@ -62,6 +62,7 @@ default:
 ## Requirements
 
 - iOS 8.0+
+- Swift 3.0+
 
 ## Installation
 
