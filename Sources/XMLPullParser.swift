@@ -28,25 +28,25 @@ import Foundation
 public class XMLPullParser {
     private var internalParser: InternalXMLParser
     
-    public convenience init?(contentsOfURL url: NSURL) {
-        guard let parser = NSXMLParser(contentsOfURL:url) else { return nil }
+    public convenience init?(contentsOfURL url: URL) {
+        guard let parser = XMLParser(contentsOf:url) else { return nil }
         self.init(xmlParser: parser)
     }
     
-    public convenience init(data: NSData) {
-        self.init(xmlParser: NSXMLParser(data: data))
+    public convenience init(data: Data) {
+        self.init(xmlParser: XMLParser(data: data))
     }
     
-    public convenience init(stream: NSInputStream) {
-        self.init(xmlParser: NSXMLParser(stream: stream))
+    public convenience init(stream: InputStream) {
+        self.init(xmlParser: XMLParser(stream: stream))
     }
     
     public convenience init?(string: String) {
-        guard let data = (string as NSString).dataUsingEncoding(NSUTF8StringEncoding) else { return nil }
+        guard let data = (string as NSString).data(using: String.Encoding.utf8.rawValue) else { return nil }
         self.init(data: data)
     }
     
-    init(xmlParser: NSXMLParser) {
+    init(xmlParser: XMLParser) {
         self.internalParser = InternalXMLParser(xmlParser: xmlParser)
     }
     
@@ -92,25 +92,25 @@ public class XMLPullParser {
 
 // MARK: -
 
-@objc private class InternalXMLParser: NSObject, NSXMLParserDelegate {
+@objc private class InternalXMLParser: NSObject, XMLParserDelegate {
     class LockCondition {
         static let Requested: Int = 0
         static let Provided: Int = 1
     }
     
     enum State {
-        case NotStarted
-        case Parsing
-        case Aborted
-        case Ended
+        case notStarted
+        case parsing
+        case aborted
+        case ended
     }
     
     enum EventOrError {
-        case Event(XMLEvent)
-        case Error(ErrorType)
+        case event(XMLEvent)
+        case error(Error)
     }
     
-    let xmlParser: NSXMLParser
+    let xmlParser: XMLParser
     let lock: NSConditionLock
     var currentEventOrError: EventOrError
     var state: State
@@ -119,85 +119,85 @@ public class XMLPullParser {
     
     // MARK: methods called on original thread
     
-    init(xmlParser: NSXMLParser) {
+    init(xmlParser: XMLParser) {
         self.xmlParser = xmlParser
         self.lock = NSConditionLock(condition: LockCondition.Requested)
-        self.currentEventOrError = EventOrError.Event(XMLEvent.StartDocument)
-        self.state = .NotStarted
+        self.currentEventOrError = EventOrError.event(XMLEvent.startDocument)
+        self.state = .notStarted
         self.depth = 0
         
         super.init()
     }
 
     func abortParsing() {
-        guard state == .Parsing else { return }
+        guard state == .parsing else { return }
         
-        state = .Aborted
+        state = .aborted
         
         // awake wating parser
-        lock.unlockWithCondition(LockCondition.Requested)
+        lock.unlock(withCondition: LockCondition.Requested)
     }
     
     func requestEvent() throws -> XMLEvent {
         switch state {
-        case .NotStarted:
-            state = .Parsing
+        case .notStarted:
+            state = .parsing
             xmlParser.delegate = self
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                self.lock.lockWhenCondition(LockCondition.Requested)
+            DispatchQueue.global(qos: .default).async {
+                self.lock.lock(whenCondition: LockCondition.Requested)
                 self.xmlParser.parse()
             }
-        case .Parsing:
-            lock.unlockWithCondition(LockCondition.Requested)
+        case .parsing:
+            lock.unlock(withCondition: LockCondition.Requested)
             
-        case .Aborted:
-            return XMLEvent.EndDocument
+        case .aborted:
+            return XMLEvent.endDocument
             
-        case .Ended:
-            return XMLEvent.EndDocument
+        case .ended:
+            return XMLEvent.endDocument
         }
         
-        lock.lockWhenCondition(LockCondition.Provided)
+        lock.lock(whenCondition: LockCondition.Provided)
         switch currentEventOrError {
-        case .Error(let error):
-            state = .Ended
+        case .error(let error):
+            state = .ended
             lock.unlock()
             throw error
-        case .Event(XMLEvent.EndDocument):
-            state = .Ended
+        case .event(XMLEvent.endDocument):
+            state = .ended
             lock.unlock()
-            return XMLEvent.EndDocument
-        case .Event(let event):
+            return XMLEvent.endDocument
+        case .event(let event):
             return event
         }
     }
 
     // MARK: methods called on background thread
     
-    func provide(eventOrError: EventOrError) {
+    func provide(_ eventOrError: EventOrError) {
         if let chars = accumulatedChars {
             accumulatedChars = nil
-            provide(.Event(.Characters(chars)))
+            provide(.event(.characters(chars)))
             waitForNextRequest()
         }
         
-        if (state == .Parsing) {
+        if (state == .parsing) {
             currentEventOrError = eventOrError
-            lock.unlockWithCondition(LockCondition.Provided)
+            lock.unlock(withCondition: LockCondition.Provided)
         }
     }
     
     func waitForNextRequest() {
-        guard state == .Parsing else {
-            if (state == .Aborted && xmlParser.delegate != nil) {
+        guard state == .parsing else {
+            if (state == .aborted && xmlParser.delegate != nil) {
                 xmlParser.delegate = nil
                 xmlParser.abortParsing()
             }
             return
         }
         
-        lock.lockWhenCondition(LockCondition.Requested)
-        if (state == .Aborted) {
+        lock.lock(whenCondition: LockCondition.Requested)
+        if (state == .aborted) {
             xmlParser.delegate = nil
             xmlParser.abortParsing()
             lock.unlock()
@@ -208,38 +208,38 @@ public class XMLPullParser {
         accumulatedChars = (accumulatedChars ?? "") + chars
     }
     
-    @objc func parserDidStartDocument(parser: NSXMLParser) {
-        provide(.Event(.StartDocument))
+    @objc func parserDidStartDocument(_ parser: XMLParser) {
+        provide(.event(.startDocument))
         waitForNextRequest()
     }
     
-    @objc func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+    @objc func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         depth += 1
         let element = XMLElement(name: elementName, namespaceURI: namespaceURI, qualifiedName: qName, attributes: attributeDict)
-        provide(.Event(.StartElement(name: elementName, namespaceURI: namespaceURI, element: element)))
+        provide(.event(.startElement(name: elementName, namespaceURI: namespaceURI, element: element)))
         waitForNextRequest()
     }
     
-    @objc func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        provide(.Event(.EndElement(name: elementName, namespaceURI: namespaceURI)))
+    @objc func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        provide(.event(.endElement(name: elementName, namespaceURI: namespaceURI)))
         waitForNextRequest()
         depth -= 1
     }
     
-    @objc func parser(parser: NSXMLParser, foundCharacters string: String) {
+    @objc func parser(_ parser: XMLParser, foundCharacters string: String) {
         accumulate(characters: string)
     }
     
-    @objc func parserDidEndDocument(parser: NSXMLParser) {
-        provide(.Event(.EndDocument))
+    @objc func parserDidEndDocument(_ parser: XMLParser) {
+        provide(.event(.endDocument))
     }
     
-    @objc func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
-        provide(.Error(XMLPullParserError.ParseError(innerError: parseError)))
+    @objc func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
+        provide(.error(XMLPullParserError.parseError(innerError: parseError)))
     }
     
-    @objc func parser(parser: NSXMLParser, foundCDATA CDATABlock: NSData) {
-        if let text = NSString(data: CDATABlock, encoding: NSUTF8StringEncoding) {
+    @objc func parser(_ parser: XMLParser, foundCDATA CDATABlock: Data) {
+        if let text = NSString(data: CDATABlock, encoding: String.Encoding.utf8.rawValue) {
             accumulate(characters: text as String)
         }
     }

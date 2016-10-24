@@ -27,13 +27,13 @@ import Foundation
 
 public enum XMLEvent {
     
-    case StartDocument
+    case startDocument
     
-    case StartElement(name: String, namespaceURI: String?, element: XMLElement)
+    case startElement(name: String, namespaceURI: String?, element: XMLElement)
     
-    case Characters(String)
+    case characters(String)
     
-    case EndElement(name: String, namespaceURI: String?)
+    case endElement(name: String, namespaceURI: String?)
     
-    case EndDocument
+    case endDocument
 }
