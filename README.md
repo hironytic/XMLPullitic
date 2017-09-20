@@ -62,7 +62,7 @@ default:
 ## Requirements
 
 - iOS 8.0+
-- Swift 3.0+
+- Swift 4.0+
 
 ## Installation
 
@@ -73,7 +73,7 @@ To install it, simply add the following lines to your Podfile:
 
 ```ruby
 use_frameworks!
-pod "XMLPullitic"
+pod "XMLPullitic", '~> 1.0'
 ```
 
 ### Carthage
@@ -82,7 +82,7 @@ XMLPullitic is available through [Carthage](https://github.com/Carthage/Carthage
 To install it, simply add the following line to your Cartfile:
 
 ```
-github "hironytic/XMLPullitic"
+github "hironytic/XMLPullitic" ~> 1.0
 ```
 
 ## Author
