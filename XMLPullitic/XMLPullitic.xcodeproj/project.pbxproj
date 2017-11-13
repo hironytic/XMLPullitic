@@ -15,6 +15,14 @@
 		50285CED1CD2E10F008477E1 /* XMLElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285CEC1CD2E10F008477E1 /* XMLElement.swift */; };
 		50285D2E1CD5AB69008477E1 /* XMLPullParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285D2D1CD5AB69008477E1 /* XMLPullParserError.swift */; };
 		50285D311CD83100008477E1 /* test1.xml in Resources */ = {isa = PBXBuildFile; fileRef = 50285D2F1CD82EB1008477E1 /* test1.xml */; };
+		509224B31FB9CC7C00C848EA /* XMLPullitic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 509224AA1FB9CC7C00C848EA /* XMLPullitic.framework */; };
+		509224C11FB9CCF800C848EA /* XMLPullitic.h in Headers */ = {isa = PBXBuildFile; fileRef = 50285CCF1CD2C897008477E1 /* XMLPullitic.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		509224C21FB9CCFE00C848EA /* XMLPullParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285CE71CD2D4E1008477E1 /* XMLPullParser.swift */; };
+		509224C31FB9CCFE00C848EA /* XMLPullParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285D2D1CD5AB69008477E1 /* XMLPullParserError.swift */; };
+		509224C41FB9CCFE00C848EA /* XMLEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285CE91CD2D552008477E1 /* XMLEvent.swift */; };
+		509224C51FB9CCFE00C848EA /* XMLElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285CEC1CD2E10F008477E1 /* XMLElement.swift */; };
+		509224C61FB9CD0300C848EA /* XMLPulliticTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50285CDB1CD2C897008477E1 /* XMLPulliticTests.swift */; };
+		509224C71FB9CD0300C848EA /* test1.xml in Resources */ = {isa = PBXBuildFile; fileRef = 50285D2F1CD82EB1008477E1 /* test1.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,6 +31,13 @@
 			containerPortal = 50285CC31CD2C897008477E1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 50285CCB1CD2C897008477E1;
+			remoteInfo = XMLPullitic;
+		};
+		509224B41FB9CC7C00C848EA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50285CC31CD2C897008477E1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 509224A91FB9CC7C00C848EA;
 			remoteInfo = XMLPullitic;
 		};
 /* End PBXContainerItemProxy section */
@@ -39,6 +54,8 @@
 		50285CEC1CD2E10F008477E1 /* XMLElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLElement.swift; sourceTree = "<group>"; };
 		50285D2D1CD5AB69008477E1 /* XMLPullParserError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLPullParserError.swift; sourceTree = "<group>"; };
 		50285D2F1CD82EB1008477E1 /* test1.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = test1.xml; sourceTree = "<group>"; };
+		509224AA1FB9CC7C00C848EA /* XMLPullitic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XMLPullitic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		509224B21FB9CC7C00C848EA /* XMLPulliticTests_tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XMLPulliticTests_tvOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +71,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				50285CD71CD2C897008477E1 /* XMLPullitic.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		509224A61FB9CC7C00C848EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		509224AF1FB9CC7C00C848EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				509224B31FB9CC7C00C848EA /* XMLPullitic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +107,8 @@
 			children = (
 				50285CCC1CD2C897008477E1 /* XMLPullitic.framework */,
 				50285CD61CD2C897008477E1 /* XMLPulliticTests_iOS.xctest */,
+				509224AA1FB9CC7C00C848EA /* XMLPullitic.framework */,
+				509224B21FB9CC7C00C848EA /* XMLPulliticTests_tvOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -121,6 +155,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		509224A71FB9CC7C00C848EA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				509224C11FB9CCF800C848EA /* XMLPullitic.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -160,13 +202,49 @@
 			productReference = 50285CD61CD2C897008477E1 /* XMLPulliticTests_iOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		509224A91FB9CC7C00C848EA /* XMLPullitic_tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 509224BF1FB9CC7C00C848EA /* Build configuration list for PBXNativeTarget "XMLPullitic_tvOS" */;
+			buildPhases = (
+				509224A51FB9CC7C00C848EA /* Sources */,
+				509224A61FB9CC7C00C848EA /* Frameworks */,
+				509224A71FB9CC7C00C848EA /* Headers */,
+				509224A81FB9CC7C00C848EA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = XMLPullitic_tvOS;
+			productName = XMLPullitic;
+			productReference = 509224AA1FB9CC7C00C848EA /* XMLPullitic.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		509224B11FB9CC7C00C848EA /* XMLPulliticTests_tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 509224C01FB9CC7C00C848EA /* Build configuration list for PBXNativeTarget "XMLPulliticTests_tvOS" */;
+			buildPhases = (
+				509224AE1FB9CC7C00C848EA /* Sources */,
+				509224AF1FB9CC7C00C848EA /* Frameworks */,
+				509224B01FB9CC7C00C848EA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				509224B51FB9CC7C00C848EA /* PBXTargetDependency */,
+			);
+			name = XMLPulliticTests_tvOS;
+			productName = XMLPulliticTests;
+			productReference = 509224B21FB9CC7C00C848EA /* XMLPulliticTests_tvOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		50285CC31CD2C897008477E1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0730;
+				LastSwiftUpdateCheck = 0910;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = hironytic;
 				TargetAttributes = {
@@ -177,6 +255,14 @@
 					50285CD51CD2C897008477E1 = {
 						CreatedOnToolsVersion = 7.3;
 						LastSwiftMigration = 0900;
+					};
+					509224A91FB9CC7C00C848EA = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+					};
+					509224B11FB9CC7C00C848EA = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -194,6 +280,8 @@
 			targets = (
 				50285CCB1CD2C897008477E1 /* XMLPullitic_iOS */,
 				50285CD51CD2C897008477E1 /* XMLPulliticTests_iOS */,
+				509224A91FB9CC7C00C848EA /* XMLPullitic_tvOS */,
+				509224B11FB9CC7C00C848EA /* XMLPulliticTests_tvOS */,
 			);
 		};
 /* End PBXProject section */
@@ -211,6 +299,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				50285D311CD83100008477E1 /* test1.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		509224A81FB9CC7C00C848EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		509224B01FB9CC7C00C848EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				509224C71FB9CD0300C848EA /* test1.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +339,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		509224A51FB9CC7C00C848EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				509224C31FB9CCFE00C848EA /* XMLPullParserError.swift in Sources */,
+				509224C21FB9CCFE00C848EA /* XMLPullParser.swift in Sources */,
+				509224C51FB9CCFE00C848EA /* XMLElement.swift in Sources */,
+				509224C41FB9CCFE00C848EA /* XMLEvent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		509224AE1FB9CC7C00C848EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				509224C61FB9CD0300C848EA /* XMLPulliticTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -243,6 +365,11 @@
 			isa = PBXTargetDependency;
 			target = 50285CCB1CD2C897008477E1 /* XMLPullitic_iOS */;
 			targetProxy = 50285CD81CD2C897008477E1 /* PBXContainerItemProxy */;
+		};
+		509224B51FB9CC7C00C848EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 509224A91FB9CC7C00C848EA /* XMLPullitic_tvOS */;
+			targetProxy = 509224B41FB9CC7C00C848EA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -299,6 +426,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -349,6 +477,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -416,6 +545,102 @@
 			};
 			name = Release;
 		};
+		509224BB1FB9CC7C00C848EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = XMLPullitic/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hironytic.XMLPullitic;
+				PRODUCT_NAME = XMLPullitic;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 3;
+			};
+			name = Debug;
+		};
+		509224BC1FB9CC7C00C848EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = XMLPullitic/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hironytic.XMLPullitic;
+				PRODUCT_NAME = XMLPullitic;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 3;
+			};
+			name = Release;
+		};
+		509224BD1FB9CC7C00C848EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = XMLPulliticTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hironytic.XMLPulliticTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 11.1;
+			};
+			name = Debug;
+		};
+		509224BE1FB9CC7C00C848EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = XMLPulliticTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hironytic.XMLPulliticTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 11.1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -442,6 +667,24 @@
 			buildConfigurations = (
 				50285CE41CD2C897008477E1 /* Debug */,
 				50285CE51CD2C897008477E1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		509224BF1FB9CC7C00C848EA /* Build configuration list for PBXNativeTarget "XMLPullitic_tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				509224BB1FB9CC7C00C848EA /* Debug */,
+				509224BC1FB9CC7C00C848EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		509224C01FB9CC7C00C848EA /* Build configuration list for PBXNativeTarget "XMLPulliticTests_tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				509224BD1FB9CC7C00C848EA /* Debug */,
+				509224BE1FB9CC7C00C848EA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
