@@ -63,7 +63,7 @@ default:
 
 - iOS 8.0+
 - tvOS 9.0+
-- Swift 4.0+
+- Swift 4.2+
 
 ## Installation
 
