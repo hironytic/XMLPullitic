@@ -74,7 +74,7 @@ To install it, simply add the following lines to your Podfile:
 
 ```ruby
 use_frameworks!
-pod "XMLPullitic", '~> 1.0'
+pod "XMLPullitic", '~> 2.0'
 ```
 
 ### Carthage
@@ -83,7 +83,7 @@ XMLPullitic is available through [Carthage](https://github.com/Carthage/Carthage
 To install it, simply add the following line to your Cartfile:
 
 ```
-github "hironytic/XMLPullitic" ~> 1.0
+github "hironytic/XMLPullitic" ~> 2.0
 ```
 
 ## Author
