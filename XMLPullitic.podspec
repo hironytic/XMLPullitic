@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "XMLPullitic"
-  s.version          = "2.0.0"
+  s.version          = "3.0.0"
   s.summary          = "Swifty XML pull parser"
 
   s.description      = <<-DESC
@@ -24,6 +24,7 @@ Pod::Spec.new do |s|
   # s.osx.deployment_target = "10.9"
   # s.watchos.deployment_target = "2.0"
   s.tvos.deployment_target = "9.0"
+  s.swift_versions = ['5.1']
   s.requires_arc = true
 
   s.source_files = 'Sources/**/*'
